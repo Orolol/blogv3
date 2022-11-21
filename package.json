@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "nuxt": "3.0.0"
+  },
+  "dependencies": {
+    "@volar/vue-language-plugin-pug": "^1.0.9",
+    "pug": "^3.0.2",
+    "sass": "^1.56.1",
+    "vite-plugin-pug": "^0.3.2",
+    "vuetify": "^3.0.1"
+  }
+}
