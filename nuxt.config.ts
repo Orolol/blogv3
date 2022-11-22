@@ -8,6 +8,15 @@ export default defineNuxtConfig({
     define: {
       "process.env.DEBUG": false,
     },
+    },
+  imports: {
+    dirs: ['stores'],
   },
-  typescript: { strict: true },
+   typescript: { strict: true },
+   modules: [ [
+      '@pinia/nuxt',
+      {
+        autoImports: ['defineStore', 'acceptHMRUpdate'],
+      },
+    ],],
 });

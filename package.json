@@ -11,6 +11,7 @@
     "nuxt": "3.0.0"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.4.5",
     "@volar/vue-language-plugin-pug": "^1.0.9",
     "pug": "^3.0.2",
     "sass": "^1.56.1",
