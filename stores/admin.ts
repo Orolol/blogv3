@@ -1,18 +1,22 @@
-export const useAuthStore = defineStore("counter", () => {
-  const isAdmin = ref(false);
-  const token = ref("");
-  //   const doubleCount = computed(() => count.value * 2)
-  const getToken = async (login: string, password: string) => {
-    const result = await fetch("http://localhost:3010/Login", {
-      method: "POST",
-      body: JSON.stringify({
-        Username: login,
-        Password: password,
-      }),
-    });
-    const json = await result.json();
+import { clientAPI } from '../composables/backend';
 
-    token.value = json.token;
+export const useAuthStore = defineStore('counter', () => {
+  const isAdmin = ref(false);
+  const token = ref('');
+  //   const doubleCount = computed(() => count.value * 2)
+  const getToken = async (login: string, password: string): string => {
+    try {
+      const result = await clientAPI.postApi('Login', {
+        username: login,
+        password,
+      });
+      console.log(result);
+      token.value = result.token;
+      return '';
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   };
 
   return { getToken, isAdmin, token };
