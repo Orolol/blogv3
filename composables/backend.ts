@@ -1,4 +1,4 @@
-const BASE_PATH = 'http://localhost:3010/';
+const BASE_PATH = "http://localhost:3010/";
 
 export const clientAPI = {
   getApi: async (
@@ -10,14 +10,14 @@ export const clientAPI = {
     const token = useAuthStore().token;
 
     const request = fetch(BASE_PATH + path, {
-      method: 'get',
-      headers: auth
+      method: "get",
+      headers: !auth
         ? {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           }
         : {
-            'Content-Type': 'application/json',
-            Bearer: token,
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
           },
     });
     return await requestSender(request);
@@ -26,38 +26,40 @@ export const clientAPI = {
     const token = useAuthStore().token;
 
     const request = fetch(BASE_PATH + path, {
-      method: 'POST',
-      headers: auth
+      method: "POST",
+      headers: !auth
         ? {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           }
         : {
-            'Content-Type': 'application/json',
-            Bearer: token,
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
           },
       body: JSON.stringify(payload),
     });
-    return await requestSender(request);
+    const data = await requestSender(request);
+    return data;
   },
 };
 
 const requestSender = async (promise: Promise<any>) => {
   const response: Response = await promise;
-  const { data, errors } = await response.json();
-  if (response.ok) {
-    return data;
-  } else {
-    console.log(response.status);
-    if ([401, 403].includes(response.status)) {
-      const error = new Error('Authentification error');
-      return Promise.reject(error);
-    } else {
-      console.log(3);
-      const error = new Error(
-        errors?.map((e: { message: string }) => e.message).join('\n') ??
-          'unknown'
-      );
-      return Promise.reject(error);
-    }
-  }
+  return await response
+    .json()
+    .then((data) => {
+      console.log("data", data);
+      return data;
+    })
+    .catch(() => {
+      if (!response.ok) {
+        console.log(response.status);
+        if ([401, 403].includes(response.status)) {
+          const error = new Error("Authentification error");
+          return Promise.reject(error);
+        } else {
+          const error = new Error("Generic error");
+          return Promise.reject(error);
+        }
+      }
+    });
 };
