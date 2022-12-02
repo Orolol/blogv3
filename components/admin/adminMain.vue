@@ -8,6 +8,7 @@ v-tabs(v-model="tab")
     v-tab Pictures
 
 LazyAdminConfig(v-if="tab === 0")
+LazyAdminPost(v-if="tab === 1")
 
 
 </template>
